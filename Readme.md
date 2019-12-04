@@ -1,5 +1,10 @@
 # Indenter
 This is a Code preprocessing tool, written in Python, which allows you to write Code without semicolons and curly brackets i.e. Python like indentation.
+### Steps
+- Write the Code it any language without using brackets or semicolans use indentions to show code blocks
+- Run the code through Indenter Script
+- Enjoy
+
 
 ### Supported Languages :
 - C
@@ -18,13 +23,14 @@ In Terminal / Command Prompt
 ```
 $ python indent.py InputFileName [-o OUTPUT_FILE] 
 ```
-PS : "[]" Denote Optional parameters 
+
+PS :*"[ ]" Denotes Optional parameters* 
 
 
 | Argument  |  Description |
 | ------------- |:-------------:|
 | InputFileName | Source Code File to Indent |
-| -o OUTPUT_FILE, --output_file OUTPUT_FILE | Output File To Store Processed Code (If Not Specified Code is stored in the InputFile) |
+| -o OUTPUT_FILE | Output File To Store Processed Code (If Not Specified Code is stored in the InputFile) |
 
 Also See Examples given below
 
@@ -53,8 +59,8 @@ In Terminal
 In Terminal
 ```$ python indent.py example.c -o output_file.c```
 
+**[License](LICENSE)**
 
-## Footnote
 Inspired by [JavaPy](https://github.com/raptor4694/JavaPy)
-This Dependency might have bugs.
-[License](LICENSE)
+
+```This Dependency might have bugs.```
