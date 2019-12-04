@@ -129,12 +129,8 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("InputFile",help="Source Code File to Indent")
-	parser.add_argument('-v', '--version', action='version', version='IndenPro version:0.0.1')
-	parser.add_argument("--clang", help="Convert to JAVA code",action="store_true")
-	parser.add_argument("--java", help="Convert to JAVA code",action="store_true")
-	parser.add_argument("--js", help="Convert to Java-Script code",action="store_true")
-	parser.add_argument("--php", help="Convert to PHP code",action="store_true")
-	parser.add_argument("-o","--output_file", help="Output File To Store Processed Code \n(If Not Specified Code is stored in the InputFile)")
+	parser.add_argument('-v', '--version', action='version', version='Indenter version:0.0.1')
+	parser.add_argument("-o", help="Output File To Store Processed Code \n(If Not Specified Code is stored in the InputFile)")
 	args = parser.parse_args()
 
 	print("Indenting Code...")
