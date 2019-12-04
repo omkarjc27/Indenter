@@ -23,18 +23,9 @@ In Terminal / Command Prompt
 ```
 $ python indent.py InputFileName [-o OUTPUT_FILE] 
 ```
-
-PS :*"[ ]" Denotes Optional parameters* 
-
-
-| Argument  |  Description |
-| ------------- |:-------------:|
-| InputFileName | Source Code File to Indent |
-| -o OUTPUT_FILE | Output File To Store Processed Code (If Not Specified Code is stored in the InputFile) |
+PS :*"[ ]" Denotes Optional parameter* 
 
 Also See Examples given below
-
-## Examples
 
 **example.c Contains:**
 ```
@@ -52,12 +43,9 @@ int main()
 Notice how the above code has no ";" or "{}"
 
 #### - To get Output in Same File
-In Terminal
-```$ python indent.py example.c```
-
+In Terminal :```$ python indent.py example.c```
 #### - To get Output in a Different File
-In Terminal
-```$ python indent.py example.c -o output_file.c```
+In Terminal :```$ python indent.py example.c -o output_file.c```
 
 **[License](LICENSE)**
 
