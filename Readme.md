@@ -21,10 +21,10 @@ This is a Code preprocessing tool, written in Python, which allows you to write 
 Run the code through Indenter before executing or compiling it.
 In Terminal / Command Prompt
 ```
-$ python indent.py InputFileName [-o OUTPUT_FILE] 
+$ python indent.py [general commands] 
 ```
-PS :*"[ ]" Denotes Optional parameter* 
 
+eg: ``` $ python indent.py cc eg.c -o eg.out```
 Also See Examples given below
 
 **example.c Contains:**
@@ -40,12 +40,10 @@ int main()
 		printf("\n")
 	return 0
 ```
-Notice how the above code has no ";" or "{}"
+Notice how the above code has no line-ending ";" or "{}"
 
-#### - To get Output in Same File
-In Terminal :```$ python indent.py example.c```
 #### - To get Output in a Different File
-In Terminal :```$ python indent.py example.c -o output_file.c```
+In Terminal :```$ python indent.py --output2file outfile.c example.c```
 
 **[License](LICENSE)**
 

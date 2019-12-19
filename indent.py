@@ -1,10 +1,10 @@
-#!/usr/bin/env python
 from datetime import date
 import os
 import argparse
 import platform
+import sys
 
-def convert(input_file,output_file,credits):
+def convert(input_file,output_file):
 
 	'''
 	
@@ -22,7 +22,6 @@ def convert(input_file,output_file,credits):
 
 	# Create the file to store output
 	out_f = open(output_file, "w")
-	out_f.write(credits+'\n') # We can add our own credits here as a comment i.e. "Created by using IndenPro"
 	out_f.close()
 	# Open the output file for appending 
 	out_f = open(output_file, "a")
@@ -33,6 +32,7 @@ def convert(input_file,output_file,credits):
 	prev_line = None
 	prev_indention_value = 0
 	extra_line = 0 	
+	mul_comment = 0
 	# Initiate Stack
 	stack = Stack()
 	stack.push(['',0])
@@ -40,22 +40,37 @@ def convert(input_file,output_file,credits):
 	# Iterating over each line
 	# Every iteration appends it's previous line to the file
 	for line in inl:
+		# Handling line starting with # eg #define ... etc
+		if line.strip().startswith("#"):
+			out_f.write(line)
+		# Handling single line comments
+		elif line.strip().startswith("//"):
+			out_f.write(line)
+		# Handling multiline comments
+		elif line.strip().startswith("/*"):
+			mul_comment = 1
+			out_f.write(line)
+		elif line.strip().endswith("*/"):
+			mul_comment = 0 
+			out_f.write(line)	
+		elif mul_comment == 1 :
+			out_f.write(line)
 		# Check if line is not blank
-		if len(line.strip()) > 0:
+		elif len(line.strip()) > 0:
 			indention_value = 0
 			# Count indention
 			while line[indention_value].isspace() or line[indention_value] == '\t':
 				indention_value += 1
 				if indention_value >= len(line):
 					break
-			# When going in inner
+			# When going in inner scope
 			if(indention_value > prev_indention_value):
 				if(prev_line != None):
 					out_f.write(prev_line)
-				val = [line[slice(indention_value-1)],indention_value] 
-				stack.push(val)
 				item = stack.view_top()
 				out_f.write(item[0]+'{\n')
+				val = [line[slice(indention_value)],indention_value] 
+				stack.push(val)
 			# When coming to outer scope	
 			elif(indention_value < prev_indention_value):
 				if(prev_line != None):
@@ -63,8 +78,9 @@ def convert(input_file,output_file,credits):
 				while True:
 					item = stack.view_top()
 					if indention_value < item[1]:
-						out_f.write(item[0]+'}\n')
 						stack.pop()
+						item = stack.view_top()
+						out_f.write(item[0]+'}\n')
 					else:
 						break
 			# Normal Line
@@ -87,10 +103,12 @@ def convert(input_file,output_file,credits):
 		# To add a buffer so that closing bracket is not immediately after the last statement
 		if(extra_line == 0):
 			prev_line += '\n'
-		out_f.write(prev_line.replace('\n',';\n'))
+		prev_line = prev_line.replace('\n',';\n')
+		out_f.write(prev_line)
 	
 	# Pop stack untill empty so that all scopes that are not closed get closed 
-	while stack.length() > 1:
+	stack.pop()
+	while stack.length() > 0:
 		item = stack.pop()
 		out_f.write(item[0]+'}\n')
 	
@@ -99,7 +117,8 @@ def convert(input_file,output_file,credits):
 	in_f.close()
 	if(self_op == 1):
 		os.remove('cache')
-			
+
+
 class Stack:
 	'''
 
@@ -127,24 +146,38 @@ class Stack:
 
 if __name__ == '__main__':
 
-	parser = argparse.ArgumentParser()
-	parser.add_argument("InputFile",help="Source Code File to Indent")
-	parser.add_argument('-v', '--version', action='version', version='Indenter version:0.0.1')
-	parser.add_argument('-o','--output_file', help="Output File To Store Processed Code \n(If Not Specified Code is stored in the InputFile)")
-	args = parser.parse_args()
+	if len(sys.argv) > 1 :
 
-	print("Indenting Code...")
+		args = sys.argv
+		del args[0]
 
-	input_file = args.InputFile 
-	if args.output_file:
-		output_file = args.output_file
-	else:
-		output_file = input_file
+		input_file = None
+		output_file = None
+		if args[0] == "--output2file":
+			output_file = args[1]
+			del args[0]
+			del args[0]
+			run = 0
+		else:
+			run = 1
 
-	credits = "/*\nIndented Using Indenter\n\
-Write code in major languages like C,C++,C#,Go,JAVA,Java-Script,PHP etc. Without parenthesis -> {} and semi-colan -> using Indenter\n\
-GoTo https://www.github.com/omkarjc27/Indenter\n*/"
-	
-	convert(input_file,output_file,credits)
+		for arg in args:
+			if os.path.isfile(arg):
+				input_file = arg
+				break
 
-	print("Done.")
+		if input_file == None:
+			print('No File Found')
+		else:
+			if output_file == None:
+				output_file = input_file
+		
+			convert(input_file,output_file)
+		
+			if run == 1:
+				os.system(' '.join(args))
+			else:	
+				print("\nDone.")
+
+	else :
+		print("Help Screen")
