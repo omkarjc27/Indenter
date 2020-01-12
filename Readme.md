@@ -1,5 +1,11 @@
 # Indenter
 This is a Code preprocessing tool, written in Python, which allows you to write Code without semicolons and curly brackets i.e. Python like indentation.
+### New Sublime Text Package
+![Demo for Package](demo.gif)
+
+
+[Download Here](https://packagecontrol.io/packages/Indentor)
+
 ### Steps
 - Write the Code it any language without using brackets or semicolans use indentions to show code blocks
 - Run the code through Indenter Script
